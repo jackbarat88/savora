@@ -19,8 +19,10 @@ Thumbs.db
 .coverage/
 
 # Build artifacts (keep only build/web)
-/build/
+/build/**
+!/build/
 !/build/web/
+!/build/web/**
 
 # Environment
 .env
