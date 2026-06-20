@@ -1,11 +1,9 @@
 {
   "outputDirectory": "build/web",
-  "public": true,
-  "routes": [
+  "rewrites": [
     {
-      "src": "/(.*)",
-      "methods": ["GET"],
-      "dest": "/index.html"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
