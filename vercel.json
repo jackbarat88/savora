@@ -1,6 +1,6 @@
 {
-  "outputDirectory": "build/web",
-  "buildCommand": "",
+  "buildCommand": "mkdir -p public && cp -R build/web/. public/",
+  "outputDirectory": "public",
   "cleanUrls": true,
   "trailingSlash": false,
   "headers": [
@@ -17,26 +17,10 @@
       ]
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "^/index\\.html$",
-      "dest": "/index.html"
-    },
-    {
-      "src": "^/favicon\\.png$",
-      "dest": "/favicon.png"
-    },
-    {
-      "src": "^/assets/(.*)$",
-      "dest": "/assets/$1"
-    },
-    {
-      "src": "^/canvaskit/(.*)$",
-      "dest": "/canvaskit/$1"
-    },
-    {
-      "src": "^/(.*)$",
-      "dest": "/index.html"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
