@@ -1,10 +1,11 @@
 {
-  "buildCommand": "",
   "outputDirectory": "build/web",
-  "rewrites": [
+  "public": true,
+  "routes": [
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "src": "/(.*)",
+      "methods": ["GET"],
+      "dest": "/index.html"
     }
   ]
 }
