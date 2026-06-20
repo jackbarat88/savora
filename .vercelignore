@@ -1,0 +1,27 @@
+# Dependencies
+/flutter/
+/.dart_tool/
+/.flutter-plugins
+/.flutter-plugins-dependencies
+/pubspec.lock
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test
+/test/
+.coverage/
+
+# Build artifacts (keep only build/web)
+/build/
+!/build/web/
+
+# Environment
+.env
+.env.local
