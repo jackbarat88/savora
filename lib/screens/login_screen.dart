@@ -23,8 +23,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final _usernameCtrl = TextEditingController();
   final _passwordCtrl = TextEditingController();
 
-  bool _obscure = true;
-  bool _loading = false;
+  bool _isPasswordHidden = true;
+  bool _isLoggingIn = false;
 
   @override
   void dispose() {
@@ -34,22 +34,32 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> _login() async {
+    // Validate form field sebelum kirim request
     if (!_formKey.currentState!.validate()) return;
 
-    setState(() => _loading = true);
+    setState(() => _isLoggingIn = true);
+    
+    // Coba login dengan credentials yang diinput user
     final user = await widget.authService.login(
       username: _usernameCtrl.text,
       password: _passwordCtrl.text,
     );
 
+    // Jangan update state kalau widget sudah di-dispose
     if (!mounted) return;
-    setState(() => _loading = false);
+    setState(() => _isLoggingIn = false);
 
     if (user != null) {
+      // Login berhasil, navigate ke dashboard
       widget.onLoginSuccess();
     } else {
+      // Login gagal, show error message ke user
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Username atau password salah.')),
+        SnackBar(
+          content: const Text('Username atau password tidak cocok. Silakan coba lagi.'),
+          backgroundColor: Colors.red[600],
+          duration: const Duration(seconds: 3),
+        ),
       );
     }
   }
@@ -115,17 +125,17 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(height: 14),
             TextFormField(
               controller: _passwordCtrl,
-              obscureText: _obscure,
+              obscureText: _isPasswordHidden,
               decoration: InputDecoration(
                 labelText: 'Password',
                 prefixIcon: const Icon(Icons.lock_outline),
                 suffixIcon: IconButton(
                   icon: Icon(
-                    _obscure
+                    _isPasswordHidden
                         ? Icons.visibility_off_outlined
                         : Icons.visibility_outlined,
                   ),
-                  onPressed: () => setState(() => _obscure = !_obscure),
+                  onPressed: () => setState(() => _isPasswordHidden = !_isPasswordHidden),
                 ),
               ),
               validator: (v) =>
@@ -134,8 +144,8 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             const SizedBox(height: 20),
             FilledButton(
-              onPressed: _loading ? null : _login,
-              child: _loading
+              onPressed: _isLoggingIn ? null : _login,
+              child: _isLoggingIn
                   ? const SizedBox(
                       width: 20,
                       height: 20,
